@@ -97,7 +97,7 @@ class MegactiBot extends LitElement {
     `;
 
     let response;
-    response = await fetch("http://localhost:5000", {
+    response = await fetch("https://megactivo-96wg.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
