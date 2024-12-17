@@ -66,44 +66,63 @@ class MegactiBot extends LitElement {
           <button @click=${this._onClickGemini} part="button">
             gemini
           </button>
+          <button @click=${this._onClickGeminiJSON} part="button">
+            gemini json
+          </button>
           <button @click=${this._onClickOpenai} part="button">
             openai
           </button>
         </div>
         <div>
-          <ul>
-            ${this.respuesta.map((item) => html`<li>${item}</li>`)}
-          </ul>
+          <label for="prompt">prompt:</label> <input id="prompt" aria-label="prompt">
+        </div>
+        <div>
+          <label for="tempe">temperature:</label> <input id="tempe" aria-label="temperature" value="0.3">
+        </div>
+        <div>
+          ${this.respuesta.map((item) => html`<p>${item}</p>`)}
         </div>
       </main>
     `;
   }
 
   async _onClickOpenai() {
-    let myanswer = this.procesarAI(1);
+    let myanswer = await this.procesarAI(1);
   }
 
   async _onClickGemini() {
-    let myanswer = this.procesarAI(0);
+    let myanswer = await this.procesarAI(2);
+  }
+
+  async _onClickGeminiJSON() {
+    let myanswer = await this.procesarAI(3);
   }
 
   async procesarAI(agente){
-    // agente 0 es gemini y 1 es openai
-    const mylyrics=['I will survive', 'I was in the circus', 'Mary danced well'];
+    // agente 2 es gemini 3 es gemini JSON y 1 es openai
+    /*const mylyrics=['I will survive', 'I was in the circus', 'Mary danced well'];
     const myprompt = `
       I will provide you with an array of sentences or epressions in English.
       Please return an equivalent array but keep only the elements that are in future tense.
       ${JSON.stringify(mylyrics)}
+    `;*/
+    const myprompt = `
+      ${this.inputPrompt.value}
     `;
+    const mytempe = 
+      this.inputTempe.value
+    ;
 
     let response;
-    response = await fetch("https://megactivo-96wg.onrender.com", {
+    //https://megactivo-96wg.onrender.com
+    response = await fetch("http://localhost:5000", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           task: agente,
+          tempe: mytempe,
           prompt: myprompt
         }),
       });    
@@ -122,6 +141,14 @@ class MegactiBot extends LitElement {
       //return err;
       return false;
     }
+  }
+
+  get inputPrompt() {
+    return this.renderRoot?.querySelector('#prompt') ?? null;
+  }
+
+  get inputTempe() {
+    return this.renderRoot?.querySelector('#tempe') ?? null;
   }
 
 }
