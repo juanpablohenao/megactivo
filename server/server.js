@@ -37,7 +37,7 @@ let generationConfig4 = {
     };
 
 const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
-    systemInstruction: "you are a very kink assistant", generationConfig4, safetySettings4 });
+    systemInstruction: "you are a super kind assistant", generationConfig4, safetySettings4 });
 const chat = model4.startChat();
 
 // 10. Run the main async function
@@ -111,7 +111,6 @@ app.post('/', async (req, res) => {
                         topK: 1,
                         topP: 1,
                         maxOutputTokens: 8192,
-                        responseMimeType: "application/json",
                     };
 
                 const model2 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
@@ -134,9 +133,11 @@ app.post('/', async (req, res) => {
                       }
                     ],
                     generationConfig: {
-                      maxOutputTokens: 1000,
                       temperature: `${tempe}`,
-                    },
+                      topK: 1,
+                      topP: 1,
+                      maxOutputTokens: 1000,
+                  },
                   });
                 const response2 = result2.response;
                 const text2 = response2.text();
@@ -196,8 +197,11 @@ app.post('/', async (req, res) => {
                       }
                     ],
                     generationConfig: {
-                      maxOutputTokens: 1000,
                       temperature: `${tempe}`,
+                      topK: 1,
+                      topP: 1,
+                      maxOutputTokens: 1000,
+                      responseMimeType: "application/json",
                     },
                   });
                 const response = result.response;

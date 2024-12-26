@@ -80,10 +80,14 @@ class MegactiBot extends LitElement {
           <label for="systemInstruction">system instruction:</label> <input id="systemInstruction" aria-label="temperature" value="You are a super kind assistant.">
         </div>
         <div>
-          <label for="prompt">prompt:</label> <input id="prompt" aria-label="prompt">
+          <label for="prompt">prompt:</label> <input id="prompt" aria-label="prompt" value="Hola">
         </div>
         <div>
           <label for="tempe">temperature:</label> <input id="tempe" aria-label="temperature" value="0.3">
+        </div>
+        <div>
+          <p>system instruction aplica para los botones "gemini" y "gemini json" porque ahi reinicio el modelo cada vez, en cambio para "gemini chat" solo inicio el modelo al primcipio entonces queda con el systemInstruction inicial "you are a super kind assistant"</p>
+          <p>temperature aplica solo para los botones "gemini" y "gemini json" porque solo ahi estoy reasignando la configuracion.</p>
         </div>
         <div>
           ${this.respuesta.map((item) => html`<p>${item}</p>`)}
