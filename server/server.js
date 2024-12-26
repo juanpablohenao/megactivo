@@ -176,7 +176,6 @@ app.post('/', async (req, res) => {
                         topK: 1,
                         topP: 1,
                         maxOutputTokens: 8192,
-                        responseMimeType: "application/json",
                     };
 
                 const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
