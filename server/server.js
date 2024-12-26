@@ -30,6 +30,7 @@ app.post('/', async (req, res) => {
 
         const task = req.body.task;
         const tempe = Number(req.body.tempe);
+        const systemInstruction = req.body.systemInstruction;
         console.log('tempe'+req.body.tempe);
         switch (task) {
             case 1:
@@ -83,7 +84,8 @@ app.post('/', async (req, res) => {
                         responseMimeType: "application/json",
                     };
 
-                const model2 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest", generationConfig2, safetySettings2 });
+                const model2 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
+                    systemInstruction: `${systemInstruction}`, generationConfig2, safetySettings2 });
                 
                 const prompt2 = req.body.prompt;
         
@@ -128,7 +130,8 @@ app.post('/', async (req, res) => {
                         responseMimeType: "application/json",
                     };
 
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest", generationConfig, safetySettings });
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
+                    systemInstruction: `${systemInstruction}`, generationConfig, safetySettings });
                 
                 const prompt = req.body.prompt;
         
@@ -145,6 +148,53 @@ app.post('/', async (req, res) => {
                 });
                 break;
 
+
+
+
+            case 4:
+                const safetySettings4 = [
+                    {
+                        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                        threshold: HarmBlockThreshold.BLOCK_NONE,
+                    },
+                    {
+                        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                        threshold: HarmBlockThreshold.BLOCK_NONE,
+                    },
+                    {
+                        category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                        threshold: HarmBlockThreshold.BLOCK_NONE,
+                    },
+                    {
+                        category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                        threshold: HarmBlockThreshold.BLOCK_NONE,
+                    },
+                ];
+
+                let generationConfig4 = {
+                        temperature: `${tempe}`,
+                        topK: 1,
+                        topP: 1,
+                        maxOutputTokens: 8192,
+                        responseMimeType: "application/json",
+                    };
+
+                const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
+                    systemInstruction: `${systemInstruction}`, generationConfig4, safetySettings4 });
+                
+                const prompt4 = req.body.prompt;
+        
+                const chat = model4.startChat();
+                let result4 = await chat.sendMessage(prompt4);
+                /*const response4 = result4.response;
+                const text4 = response4.text();
+                //console.log(text);
+                console.log('params x the answer'+"task"+task+"temperature"+tempe);
+                console.log('the answer'+response4.text());*/
+                res.status(200).send({
+                    bot: result4.response.text()
+                });
+                break;
 
             default:
 

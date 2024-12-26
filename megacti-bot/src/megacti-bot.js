@@ -63,6 +63,9 @@ class MegactiBot extends LitElement {
     return html`
       <main>
         <div>
+          <button @click=${this._onClickGeminiChat} part="button">
+            gemini chat
+          </button>
           <button @click=${this._onClickGemini} part="button">
             gemini
           </button>
@@ -72,6 +75,9 @@ class MegactiBot extends LitElement {
           <button @click=${this._onClickOpenai} part="button">
             openai
           </button>
+        </div>
+        <div>
+          <label for="systemInstruction">system instruction:</label> <input id="systemInstruction" aria-label="temperature" value="You are a super kind assistant.">
         </div>
         <div>
           <label for="prompt">prompt:</label> <input id="prompt" aria-label="prompt">
@@ -98,6 +104,10 @@ class MegactiBot extends LitElement {
     let myanswer = await this.procesarAI(3);
   }
 
+  async _onClickGeminiChat() {
+    let myanswer = await this.procesarAI(4);
+  }
+
   async procesarAI(agente){
     // agente 2 es gemini 3 es gemini JSON y 1 es openai
     /*const mylyrics=['I will survive', 'I was in the circus', 'Mary danced well'];
@@ -112,10 +122,13 @@ class MegactiBot extends LitElement {
     const mytempe = 
       this.inputTempe.value
     ;
+    const mySystemInstruction = 
+      this.inputSystemInstruction.value
+    ;
 
     let response;
-    //https://megactivo-96wg.onrender.com
-    response = await fetch("http://localhost:5000", {
+    //http://localhost:5000
+    response = await fetch("https://megactivo-96wg.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,6 +136,7 @@ class MegactiBot extends LitElement {
         body: JSON.stringify({
           task: agente,
           tempe: mytempe,
+          systemInstruction: mySystemInstruction, 
           prompt: myprompt
         }),
       });    
@@ -149,6 +163,10 @@ class MegactiBot extends LitElement {
 
   get inputTempe() {
     return this.renderRoot?.querySelector('#tempe') ?? null;
+  }
+
+  get inputSystemInstruction() {
+    return this.renderRoot?.querySelector('#systemInstruction') ?? null;
   }
 
 }
