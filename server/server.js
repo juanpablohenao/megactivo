@@ -119,9 +119,25 @@ app.post('/', async (req, res) => {
                 
                 const prompt2 = req.body.prompt;
         
-                const result2 = await model2.generateContent (
+                /*const result2 = await model2.generateContent (
                     prompt2
-                );
+                );*/
+                const result2 = await model2.generateContent({
+                    contents: [
+                      {
+                        role: 'user',
+                        parts: [
+                          {
+                            text: prompt2,
+                          }
+                        ],
+                      }
+                    ],
+                    generationConfig: {
+                      maxOutputTokens: 1000,
+                      temperature: `${tempe}`,
+                    },
+                  });
                 const response2 = result2.response;
                 const text2 = response2.text();
                 //console.log(text);
@@ -165,9 +181,25 @@ app.post('/', async (req, res) => {
                 
                 const prompt = req.body.prompt;
         
-                const result = await model.generateContent (
+                /*const result = await model.generateContent (
                     prompt
-                );
+                );*/
+                const result = await model.generateContent({
+                    contents: [
+                      {
+                        role: 'user',
+                        parts: [
+                          {
+                            text: prompt,
+                          }
+                        ],
+                      }
+                    ],
+                    generationConfig: {
+                      maxOutputTokens: 1000,
+                      temperature: `${tempe}`,
+                    },
+                  });
                 const response = result.response;
                 const text = response.text();
                 //console.log(text);
