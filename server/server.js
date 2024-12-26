@@ -10,6 +10,10 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   
+const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
+    systemInstruction: "you are a very kink assistant", generationConfig4, safetySettings4 });
+const chat = model4.startChat();
+
 // 10. Run the main async function
 (async () => {
       //hi
@@ -178,18 +182,11 @@ app.post('/', async (req, res) => {
                         maxOutputTokens: 8192,
                     };
 
-                const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
+                /*const model4 = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest",
                     systemInstruction: `${systemInstruction}`, generationConfig4, safetySettings4 });
-                
+                const chat = model4.startChat();*/
                 const prompt4 = req.body.prompt;
-        
-                const chat = model4.startChat();
                 let result4 = await chat.sendMessage(prompt4);
-                /*const response4 = result4.response;
-                const text4 = response4.text();
-                //console.log(text);
-                console.log('params x the answer'+"task"+task+"temperature"+tempe);
-                console.log('the answer'+response4.text());*/
                 res.status(200).send({
                     bot: result4.response.text()
                 });
